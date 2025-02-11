@@ -21,26 +21,18 @@ class EmployeeController extends Controller
     }
 
     // Menyimpan data karyawan baru
-    public function store(Request $request)
-    {
-        // Validasi inputan
+    public function store(Request $request){
         $request->validate([
-            'name' => 'required|min:5|max:20',
-            'age' => 'required|numeric|min:21',
-            'address' => 'required|min:10|max:40',
-            'phone' => 'required|regex:/^08\d{7,10}$/',
-        ]);
+        'name' => 'required|string|max:255',
+        'age' => 'required|integer',
+        'address' => 'required|string|max:255',
+        'phone' => 'required|string|max:15',
+    ]);
 
-        // Menyimpan data ke database
-        $employee = new Employee;
-        $employee->name = $request->input('name');
-        $employee->age = $request->input('age');
-        $employee->address = $request->input('address');
-        $employee->phone = $request->input('phone');
-        $employee->save(); 
+    $employee = new Employee($request->all());
+    $employee->save();
 
-        // Redirect ke halaman daftar karyawan
-        return redirect()->route('employees.index');
+    return redirect()->route('employees.index')->with('success', 'Employee created successfully.');
     }
 
     // Menampilkan form untuk mengedit karyawan
@@ -52,19 +44,16 @@ class EmployeeController extends Controller
     // Memperbarui data karyawan
     public function update(Request $request, Employee $employee)
     {
-        // Validasi inputan
         $request->validate([
-            'name' => 'required|min:5|max:20',
-            'age' => 'required|numeric|min:21',
-            'address' => 'required|min:10|max:40',
-            'phone' => 'required|regex:/^08\d{7,10}$/',
+            'name' => 'required|string|max:255',
+            'age' => 'required|integer',
+            'address' => 'required|string|max:255',
+            'phone' => 'required|string|max:15',
         ]);
 
-        // Memperbarui data karyawan
         $employee->update($request->all());
 
-        // Redirect ke halaman daftar karyawan
-        return redirect()->route('employees.index');
+        return redirect()->route('employees.index')->with('success', 'Employee updated successfully.');
     }
 
     // Menghapus data karyawan
