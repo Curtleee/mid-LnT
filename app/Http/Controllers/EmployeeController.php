@@ -23,10 +23,10 @@ class EmployeeController extends Controller
     // Menyimpan data karyawan baru
     public function store(Request $request){
         $request->validate([
-        'name' => 'required|string|max:255',
-        'age' => 'required|integer',
-        'address' => 'required|string|max:255',
-        'phone' => 'required|string|max:15',
+        'name' => 'required|string|max:20',
+        'age' => 'required|integer|min:20',
+        'address' => 'required|string|max:40',
+        'phone' => 'required|string|max:12|regex:/^08[0-9]{8,13}$/',
     ]);
 
     $employee = new Employee($request->all());
@@ -45,10 +45,10 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'age' => 'required|integer',
-            'address' => 'required|string|max:255',
-            'phone' => 'required|string|max:15',
+            'name' => 'required|string|max:20',
+            'age' => 'required|integer|min:20',
+            'address' => 'required|string|max:40',
+            'phone' => 'required|string|max:12|regex:/^08[0-9]{8,13}$/',
         ]);
 
         $employee->update($request->all());
